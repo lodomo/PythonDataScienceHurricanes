@@ -1,0 +1,63 @@
+---
+title: "Data Cleaning for Hurricane Dataset"
+date: last-modified
+author: "Logan MacFarlane and Lorenzo D. Moon"
+format: 
+    html:
+        embed-resources: true
+jupyter: python3
+---
+
+# Data Cleaning for Hurricane Dataset
+
+## Importing Libraries
+
+```{python}
+import pandas as pd
+import numpy as np
+```
+
+## Loading the Dataset
+
+```{python}
+df = pd.read_csv('Atlantic_Hurricanes_1970-2024.csv')
+def check_all(df):
+    print(df.head())
+    print(df.info())
+    print(df.describe())
+
+check_all(df)
+```
+
+## Tidying
+
+```{python}
+# Convert column names to snake_case
+df = df.rename(columns={
+    "OBJECTID": "object_id",
+    "SID": "sid",
+    "BASIN": "basin",
+    "SUBBASIN": "sub_basin",
+    "NAME": "name",
+    "NATURE": "nature",
+    "Date": "date",
+    "LAT": "latitude",
+    "LON": "longitude",
+    "USA_WIND": "usa_wind",
+    "USA_PRES": "usa_pres",
+})
+
+check_all(df)
+```
+
+## Treat Missing Values
+```{python}
+# TODO
+```
+
+
+## Output Cleaned Data
+```{python}
+df.to_csv('cleaned_hurricane_data.csv')
+print("Cleaned data saved to 'cleaned_hurricane_data.csv'")
+```
