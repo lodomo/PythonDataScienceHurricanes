@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Logan MacFarlane and Lorenzo D. Moon">
-<meta name="dcterms.date" content="2025-10-28">
+<meta name="dcterms.date" content="2025-11-03">
 
 <title>Data Cleaning for Hurricane Dataset</title>
 <style>
@@ -2197,7 +2197,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">October 28, 2025</p>
+      <p class="date">November 3, 2025</p>
     </div>
   </div>
   
@@ -2213,14 +2213,14 @@ vertical-align: -.125em;
 <h1>Data Cleaning for Hurricane Dataset</h1>
 <section id="importing-libraries" class="level2">
 <h2 class="anchored" data-anchor-id="importing-libraries">Importing Libraries</h2>
-<div id="80f06e07" class="cell" data-execution_count="1">
+<div id="5d9582dc" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="loading-the-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="loading-the-dataset">Loading the Dataset</h2>
-<div id="4b6c66bf" class="cell" data-execution_count="2">
+<div id="3b8e045a" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">&#39;Atlantic_Hurricanes_1970-2024.csv&#39;</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_all(df):</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(df.head())</span>
@@ -2288,7 +2288,7 @@ max        69.900000     266.900000     185.000000    1024.000000  </code></pre>
 </section>
 <section id="tidying" class="level2">
 <h2 class="anchored" data-anchor-id="tidying">Tidying</h2>
-<div id="f6d41893" class="cell" data-execution_count="3">
+<div id="04bfa55f" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert column names to snake_case</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.rename(columns<span class="op">=</span>{</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;OBJECTID&quot;</span>: <span class="st">&quot;object_id&quot;</span>,</span>
@@ -2365,15 +2365,60 @@ max        69.900000     266.900000     185.000000    1024.000000  </code></pre>
 </section>
 <section id="treat-missing-values" class="level2">
 <h2 class="anchored" data-anchor-id="treat-missing-values">Treat Missing Values</h2>
-<div id="6ecef546" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">TODO</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="b54b1ffd" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.isnull().<span class="bu">sum</span>())</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Basin/Sub_basin are missing lots of values. Fill with &quot;Unknown&quot; instead of dropping rows?</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;basin&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;basin&#39;</span>].fillna(<span class="st">&#39;Unknown&#39;</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;sub_basin&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;sub_basin&#39;</span>].fillna(<span class="st">&#39;Unknown&#39;</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.isnull().<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>object_id        0
+sid              0
+basin        48493
+sub_basin    38365
+name             0
+nature           0
+year             0
+month            0
+day              0
+date             0
+latitude         0
+longitude        0
+usa_wind         0
+usa_pres         0
+dtype: int64
+object_id    0
+sid          0
+basin        0
+sub_basin    0
+name         0
+nature       0
+year         0
+month        0
+day          0
+date         0
+latitude     0
+longitude    0
+usa_wind     0
+usa_pres     0
+dtype: int64</code></pre>
+</div>
+</div>
+</section>
+<section id="correct-time-data" class="level2">
+<h2 class="anchored" data-anchor-id="correct-time-data">Correct Time Data</h2>
+<div id="59bbad06" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># &#39;date&#39; is in UTC, but month/day are in local time. Fix?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="output-cleaned-data" class="level2">
 <h2 class="anchored" data-anchor-id="output-cleaned-data">Output Cleaned Data</h2>
-<div id="dfb33011" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">&#39;cleaned_hurricane_data.csv&#39;</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Cleaned data saved to &#39;cleaned_hurricane_data.csv&#39;&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="dd5cd0b0" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">&#39;cleaned_hurricane_data.csv&#39;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Cleaned data saved to &#39;cleaned_hurricane_data.csv&#39;&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Cleaned data saved to &#39;cleaned_hurricane_data.csv&#39;</code></pre>
 </div>
