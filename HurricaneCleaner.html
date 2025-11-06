@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Logan MacFarlane and Lorenzo D. Moon">
-<meta name="dcterms.date" content="2025-11-03">
+<meta name="dcterms.date" content="2025-11-05">
 
 <title>Data Cleaning for Hurricane Dataset</title>
 <style>
@@ -2197,7 +2197,7 @@ vertical-align: -.125em;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">November 3, 2025</p>
+      <p class="date">November 5, 2025</p>
     </div>
   </div>
   
@@ -2213,21 +2213,25 @@ vertical-align: -.125em;
 <h1>Data Cleaning for Hurricane Dataset</h1>
 <section id="importing-libraries" class="level2">
 <h2 class="anchored" data-anchor-id="importing-libraries">Importing Libraries</h2>
-<div id="5d9582dc" class="cell" data-execution_count="1">
+<div id="b26893bf" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="loading-the-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="loading-the-dataset">Loading the Dataset</h2>
-<div id="3b8e045a" class="cell" data-execution_count="2">
+<div id="b0c0a770" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">&#39;Atlantic_Hurricanes_1970-2024.csv&#39;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_all(df):</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(df.head())</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(df.info())</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(df.describe())</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>check_all(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> check_all(df):</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(df.head())</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(df.info())</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(df.describe())</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(df.isnull().<span class="bu">sum</span>())</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>check_all(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   OBJECTID            SID BASIN SUBBASIN             NAME NATURE  year  \
 0    337555  1969363S21042    SI       MM         Delphine     TS  1970   
@@ -2282,13 +2286,28 @@ min       -68.000000    -179.800000       0.000000       0.000000
 25%       -12.700000     -49.300000      20.000000       0.000000  
 50%        14.000000     102.200000      30.000000       0.000000  
 75%        21.100000     137.400000      55.000000     994.000000  
-max        69.900000     266.900000     185.000000    1024.000000  </code></pre>
+max        69.900000     266.900000     185.000000    1024.000000  
+OBJECTID        0
+SID             0
+BASIN       48493
+SUBBASIN    38365
+NAME            0
+NATURE          0
+year            0
+month           0
+day             0
+Date            0
+LAT             0
+LON             0
+USA_WIND        0
+USA_PRES        0
+dtype: int64</code></pre>
 </div>
 </div>
 </section>
 <section id="tidying" class="level2">
 <h2 class="anchored" data-anchor-id="tidying">Tidying</h2>
-<div id="04bfa55f" class="cell" data-execution_count="3">
+<div id="f380653f" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert column names to snake_case</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.rename(columns<span class="op">=</span>{</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;OBJECTID&quot;</span>: <span class="st">&quot;object_id&quot;</span>,</span>
@@ -2359,23 +2378,8 @@ min       -68.000000    -179.800000       0.000000       0.000000
 25%       -12.700000     -49.300000      20.000000       0.000000  
 50%        14.000000     102.200000      30.000000       0.000000  
 75%        21.100000     137.400000      55.000000     994.000000  
-max        69.900000     266.900000     185.000000    1024.000000  </code></pre>
-</div>
-</div>
-</section>
-<section id="treat-missing-values" class="level2">
-<h2 class="anchored" data-anchor-id="treat-missing-values">Treat Missing Values</h2>
-<div id="b54b1ffd" class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for missing values</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.isnull().<span class="bu">sum</span>())</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Basin/Sub_basin are missing lots of values. Fill with &quot;Unknown&quot; instead of dropping rows?</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;basin&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;basin&#39;</span>].fillna(<span class="st">&#39;Unknown&#39;</span>)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>df[<span class="st">&#39;sub_basin&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;sub_basin&#39;</span>].fillna(<span class="st">&#39;Unknown&#39;</span>)</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(df.isnull().<span class="bu">sum</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>object_id        0
+max        69.900000     266.900000     185.000000    1024.000000  
+object_id        0
 sid              0
 basin        48493
 sub_basin    38365
@@ -2389,36 +2393,198 @@ latitude         0
 longitude        0
 usa_wind         0
 usa_pres         0
-dtype: int64
-object_id    0
-sid          0
-basin        0
-sub_basin    0
-name         0
-nature       0
-year         0
-month        0
-day          0
-date         0
-latitude     0
-longitude    0
-usa_wind     0
-usa_pres     0
 dtype: int64</code></pre>
 </div>
 </div>
 </section>
+<section id="treat-missing-values" class="level2">
+<h2 class="anchored" data-anchor-id="treat-missing-values">Treat Missing Values</h2>
+<section id="treat-missing-basin-information" class="level3">
+<h3 class="anchored" data-anchor-id="treat-missing-basin-information">Treat Missing Basin Information</h3>
+<div id="411e80ee" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create dataframe of names with basin info</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>basin_info <span class="op">=</span> df[[<span class="st">&#39;name&#39;</span>, <span class="st">&#39;basin&#39;</span>]].dropna().drop_duplicates()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill in missing basin info based on name.</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, row <span class="kw">in</span> df[df[<span class="st">&#39;basin&#39;</span>].isnull()].iterrows():</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> row[<span class="st">&#39;name&#39;</span>]</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> name <span class="kw">in</span> basin_info[<span class="st">&#39;name&#39;</span>].values:</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>        basin <span class="op">=</span> basin_info[basin_info[<span class="st">&#39;name&#39;</span>] <span class="op">==</span> name][<span class="st">&#39;basin&#39;</span>].values[<span class="dv">0</span>]</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>        df.at[index, <span class="st">&#39;basin&#39;</span>] <span class="op">=</span> basin</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>check_all(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   object_id            sid basin sub_basin             name nature  year  \
+0     337555  1969363S21042    SI        MM         Delphine     TS  1970   
+1     337556  1969363S21042    SI        MM         Delphine     TS  1970   
+2     337557  1970003S07097    SI        WA  Diane:Francoise     NR  1970   
+3     337558  1970003S07097    SI        WA  Diane:Francoise     NR  1970   
+4     337559  1970003S07097    SI        WA  Diane:Francoise     NR  1970   
+
+   month  day                 date  latitude  longitude  usa_wind  usa_pres  
+0      1    1  1/2/1970 5:00:00 AM     -20.0       37.1         0         0  
+1      1    1  1/2/1970 5:00:00 AM     -20.0       36.6         0         0  
+2      1    3  1/4/1970 5:00:00 AM      -7.0       97.0         0         0  
+3      1    3  1/4/1970 5:00:00 AM      -7.3       96.5         0         0  
+4      1    3  1/4/1970 5:00:00 AM      -7.6       96.0         0         0  
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 365594 entries, 0 to 365593
+Data columns (total 14 columns):
+ #   Column     Non-Null Count   Dtype  
+---  ------     --------------   -----  
+ 0   object_id  365594 non-null  int64  
+ 1   sid        365594 non-null  object 
+ 2   basin      347274 non-null  object 
+ 3   sub_basin  327229 non-null  object 
+ 4   name       365594 non-null  object 
+ 5   nature     365594 non-null  object 
+ 6   year       365594 non-null  int64  
+ 7   month      365594 non-null  int64  
+ 8   day        365594 non-null  int64  
+ 9   date       365594 non-null  object 
+ 10  latitude   365594 non-null  float64
+ 11  longitude  365594 non-null  float64
+ 12  usa_wind   365594 non-null  int64  
+ 13  usa_pres   365594 non-null  int64  
+dtypes: float64(2), int64(6), object(6)
+memory usage: 39.0+ MB
+None
+           object_id           year          month            day  \
+count  365594.000000  365594.000000  365594.000000  365594.000000   
+mean   520351.500000    1996.012831       7.011144      15.727197   
+std    105538.041495      15.809726       3.337434       8.759082   
+min    337555.000000    1970.000000       1.000000       1.000000   
+25%    428953.250000    1983.000000       4.000000       8.000000   
+50%    520351.500000    1996.000000       8.000000      16.000000   
+75%    611749.750000    2009.000000      10.000000      23.000000   
+max    703148.000000    2024.000000      12.000000      31.000000   
+
+            latitude      longitude       usa_wind       usa_pres  
+count  365594.000000  365594.000000  365594.000000  365594.000000  
+mean        8.036458      57.275496      38.004437     415.283924  
+std        19.946048     104.898822      31.181193     488.886021  
+min       -68.000000    -179.800000       0.000000       0.000000  
+25%       -12.700000     -49.300000      20.000000       0.000000  
+50%        14.000000     102.200000      30.000000       0.000000  
+75%        21.100000     137.400000      55.000000     994.000000  
+max        69.900000     266.900000     185.000000    1024.000000  
+object_id        0
+sid              0
+basin        18320
+sub_basin    38365
+name             0
+nature           0
+year             0
+month            0
+day              0
+date             0
+latitude         0
+longitude        0
+usa_wind         0
+usa_pres         0
+dtype: int64</code></pre>
+</div>
+</div>
+</section>
+<section id="treat-missing-sub-basin-information" class="level3">
+<h3 class="anchored" data-anchor-id="treat-missing-sub-basin-information">Treat Missing Sub-Basin Information</h3>
+<div id="d24e1ab3" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create dataframe of names with sub-basin info</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sub_basin_info <span class="op">=</span> df[[<span class="st">&#39;name&#39;</span>, <span class="st">&#39;sub_basin&#39;</span>]].dropna().drop_duplicates()</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Fill in missing sub-basin info based on name.</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> index, row <span class="kw">in</span> df[df[<span class="st">&#39;sub_basin&#39;</span>].isnull()].iterrows():</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> row[<span class="st">&#39;name&#39;</span>]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> name <span class="kw">in</span> sub_basin_info[<span class="st">&#39;name&#39;</span>].values:</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>        sub_basin <span class="op">=</span> sub_basin_info[sub_basin_info[<span class="st">&#39;name&#39;</span>] <span class="op">==</span> name][<span class="st">&#39;sub_basin&#39;</span>].values[<span class="dv">0</span>]</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>        df.at[index, <span class="st">&#39;sub_basin&#39;</span>] <span class="op">=</span> sub_basin</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>check_all(df)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   object_id            sid basin sub_basin             name nature  year  \
+0     337555  1969363S21042    SI        MM         Delphine     TS  1970   
+1     337556  1969363S21042    SI        MM         Delphine     TS  1970   
+2     337557  1970003S07097    SI        WA  Diane:Francoise     NR  1970   
+3     337558  1970003S07097    SI        WA  Diane:Francoise     NR  1970   
+4     337559  1970003S07097    SI        WA  Diane:Francoise     NR  1970   
+
+   month  day                 date  latitude  longitude  usa_wind  usa_pres  
+0      1    1  1/2/1970 5:00:00 AM     -20.0       37.1         0         0  
+1      1    1  1/2/1970 5:00:00 AM     -20.0       36.6         0         0  
+2      1    3  1/4/1970 5:00:00 AM      -7.0       97.0         0         0  
+3      1    3  1/4/1970 5:00:00 AM      -7.3       96.5         0         0  
+4      1    3  1/4/1970 5:00:00 AM      -7.6       96.0         0         0  
+&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+RangeIndex: 365594 entries, 0 to 365593
+Data columns (total 14 columns):
+ #   Column     Non-Null Count   Dtype  
+---  ------     --------------   -----  
+ 0   object_id  365594 non-null  int64  
+ 1   sid        365594 non-null  object 
+ 2   basin      347274 non-null  object 
+ 3   sub_basin  364178 non-null  object 
+ 4   name       365594 non-null  object 
+ 5   nature     365594 non-null  object 
+ 6   year       365594 non-null  int64  
+ 7   month      365594 non-null  int64  
+ 8   day        365594 non-null  int64  
+ 9   date       365594 non-null  object 
+ 10  latitude   365594 non-null  float64
+ 11  longitude  365594 non-null  float64
+ 12  usa_wind   365594 non-null  int64  
+ 13  usa_pres   365594 non-null  int64  
+dtypes: float64(2), int64(6), object(6)
+memory usage: 39.0+ MB
+None
+           object_id           year          month            day  \
+count  365594.000000  365594.000000  365594.000000  365594.000000   
+mean   520351.500000    1996.012831       7.011144      15.727197   
+std    105538.041495      15.809726       3.337434       8.759082   
+min    337555.000000    1970.000000       1.000000       1.000000   
+25%    428953.250000    1983.000000       4.000000       8.000000   
+50%    520351.500000    1996.000000       8.000000      16.000000   
+75%    611749.750000    2009.000000      10.000000      23.000000   
+max    703148.000000    2024.000000      12.000000      31.000000   
+
+            latitude      longitude       usa_wind       usa_pres  
+count  365594.000000  365594.000000  365594.000000  365594.000000  
+mean        8.036458      57.275496      38.004437     415.283924  
+std        19.946048     104.898822      31.181193     488.886021  
+min       -68.000000    -179.800000       0.000000       0.000000  
+25%       -12.700000     -49.300000      20.000000       0.000000  
+50%        14.000000     102.200000      30.000000       0.000000  
+75%        21.100000     137.400000      55.000000     994.000000  
+max        69.900000     266.900000     185.000000    1024.000000  
+object_id        0
+sid              0
+basin        18320
+sub_basin     1416
+name             0
+nature           0
+year             0
+month            0
+day              0
+date             0
+latitude         0
+longitude        0
+usa_wind         0
+usa_pres         0
+dtype: int64</code></pre>
+</div>
+</div>
+</section>
+</section>
 <section id="correct-time-data" class="level2">
 <h2 class="anchored" data-anchor-id="correct-time-data">Correct Time Data</h2>
-<div id="59bbad06" class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># &#39;date&#39; is in UTC, but month/day are in local time. Fix?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="38976641" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># &#39;date&#39; is in UTC, but month/day are in local time. Fix?</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="output-cleaned-data" class="level2">
 <h2 class="anchored" data-anchor-id="output-cleaned-data">Output Cleaned Data</h2>
-<div id="dd5cd0b0" class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">&#39;cleaned_hurricane_data.csv&#39;</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Cleaned data saved to &#39;cleaned_hurricane_data.csv&#39;&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="19d94162" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">&#39;cleaned_hurricane_data.csv&#39;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">&quot;Cleaned data saved to &#39;cleaned_hurricane_data.csv&#39;&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Cleaned data saved to &#39;cleaned_hurricane_data.csv&#39;</code></pre>
 </div>

@@ -21,10 +21,14 @@ import numpy as np
 
 ```{python}
 df = pd.read_csv('Atlantic_Hurricanes_1970-2024.csv')
+
+
 def check_all(df):
     print(df.head())
     print(df.info())
     print(df.describe())
+    print(df.isnull().sum())
+
 
 check_all(df)
 ```
@@ -51,17 +55,38 @@ check_all(df)
 ```
 
 ## Treat Missing Values
+
+### Treat Missing Basin Information
+
 ```{python}
-# Check for missing values
-print(df.isnull().sum())
+# Create dataframe of names with basin info
+basin_info = df[['name', 'basin']].dropna().drop_duplicates()
 
-# Basin/Sub_basin are missing lots of values. Fill with "Unknown" instead of dropping rows?
-df['basin'] = df['basin'].fillna('Unknown')
-df['sub_basin'] = df['sub_basin'].fillna('Unknown')
+# Fill in missing basin info based on name.
+for index, row in df[df['basin'].isnull()].iterrows():
+    name = row['name']
+    if name in basin_info['name'].values:
+        basin = basin_info[basin_info['name'] == name]['basin'].values[0]
+        df.at[index, 'basin'] = basin
 
-print(df.isnull().sum())
+check_all(df)
 ```
 
+### Treat Missing Sub-Basin Information
+
+```{python}
+# Create dataframe of names with sub-basin info
+sub_basin_info = df[['name', 'sub_basin']].dropna().drop_duplicates()
+
+# Fill in missing sub-basin info based on name.
+for index, row in df[df['sub_basin'].isnull()].iterrows():
+    name = row['name']
+    if name in sub_basin_info['name'].values:
+        sub_basin = sub_basin_info[sub_basin_info['name'] == name]['sub_basin'].values[0]
+        df.at[index, 'sub_basin'] = sub_basin
+
+check_all(df)
+```
 ## Correct Time Data
 ```{python}
 # 'date' is in UTC, but month/day are in local time. Fix?
