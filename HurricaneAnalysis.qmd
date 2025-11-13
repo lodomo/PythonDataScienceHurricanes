@@ -1,0 +1,27 @@
+---
+title: "Hurricane Analysis"
+date: last-modified
+author: "Logan MacFarlane and Lorenzo D. Moon"
+format: 
+    html:
+        embed-resources: true
+jupyter: python3
+---
+
+# Hurricane Analysis
+
+## Importing Libraries
+```{python}
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+```
+
+## Loading the Dataset
+```{python}
+df = pd.read_csv("cleaned_hurricane_data.csv")
+print(df.head())
+```
+
+

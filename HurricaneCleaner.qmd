@@ -59,39 +59,52 @@ check_all(df)
 ### Treat Missing Basin Information
 
 ```{python}
-# Create dataframe of names with basin info
-basin_info = df[['name', 'basin']].dropna().drop_duplicates()
+"""
+From Stack overflow I found this code snippet:
+https://stackoverflow.com/questions/53233228/plot-latitude-longitude-from-csv-in-python-3-6
+# Source - https://stackoverflow.com/a
+# Posted by Xiaoyu Lu, modified by community. See post 'Timeline' for change history
+# Retrieved 2025-11-13, License - CC BY-SA 4.0
 
-# Fill in missing basin info based on name.
-for index, row in df[df['basin'].isnull()].iterrows():
-    name = row['name']
-    if name in basin_info['name'].values:
-        basin = basin_info[basin_info['name'] == name]['basin'].values[0]
-        df.at[index, 'basin'] = basin
+import pandas as pd
+from shapely.geometry import Point
+import geopandas as gpd
+from geopandas import GeoDataFrame
+import geodatasets
+
+df = pd.read_csv("Long_Lats.csv", delimiter=',', skiprows=0, low_memory=False)
+
+geometry = [Point(xy) for xy in zip(df['Longitude'], df['Latitude'])]
+gdf = GeoDataFrame(df, geometry=geometry)   
+
+#this is a simple map that goes with geopandas
+# deprecated: world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+world = gpd.read_file(geodatasets.data.naturalearth.land['url'])
+gdf.plot(ax=world.plot(figsize=(10, 6)), marker='o', color='red', markersize=15);
+"""
+
+# Let's see where all our missing data is located
+from shapely.geometry import Point
+import geopandas as gpd
+from geopandas import GeoDataFrame
+import geodatasets
+
+missing_basin = df[df['basin'].isnull()]
+geometry = [Point(xy) for xy in zip(missing_basin['longitude'], missing_basin['latitude'])]
+gdf_missing = GeoDataFrame(missing_basin, geometry=geometry)
+world = gpd.read_file(geodatasets.data.naturalearth.land['url'])
+gdf_missing.plot(ax=world.plot(figsize=(10, 6)), marker='o', color='red', markersize=15);
+
 
 check_all(df)
 ```
 
-### Treat Missing Sub-Basin Information
+## THE LEGEND OF THE MISSING DATA
 
-```{python}
-# Create dataframe of names with sub-basin info
-sub_basin_info = df[['name', 'sub_basin']].dropna().drop_duplicates()
+The missing data was caused by NA being marked in the CSV for "North Atlantic" but was being dropped by pandas as a null value.
+I ran a find/replace on the original CSV to replaces all ,NA, instances with ,NAB, and reloaded the data.
 
-# Fill in missing sub-basin info based on name.
-for index, row in df[df['sub_basin'].isnull()].iterrows():
-    name = row['name']
-    if name in sub_basin_info['name'].values:
-        sub_basin = sub_basin_info[sub_basin_info['name'] == name]['sub_basin'].values[0]
-        df.at[index, 'sub_basin'] = sub_basin
-
-check_all(df)
-```
-## Correct Time Data
-```{python}
-# 'date' is in UTC, but month/day are in local time. Fix?
-```
-
+There are now no missing basin or sub_basin values.
 
 ## Output Cleaned Data
 ```{python}
