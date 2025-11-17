@@ -1,27 +1,124 @@
 ---
-title: "Hurricane Analysis"
+title: "Hurricane Analysis (Working Title)"
 date: last-modified
 author: "Logan MacFarlane and Lorenzo D. Moon"
 format: 
     html:
         embed-resources: true
+execute:
+  echo: false
 jupyter: python3
 ---
 
-# Hurricane Analysis
-
-## Importing Libraries
 ```{python}
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-```
+from scipy.stats import pearsonr
+from sklearn.linear_model import LinearRegression
 
-## Loading the Dataset
-```{python}
 df = pd.read_csv("cleaned_hurricane_data.csv")
-print(df.head())
+
+# Convert into categorical variables
+df['basin'] = df['basin'].astype('category')
+df['sub_basin'] = df['sub_basin'].astype('category')
+df['nature'] = df['nature'].astype('category')
+```
+
+## General Background
+
+This dataset provides a comprehensive historical background on tropical cyclones, including hurricanes and typhoons, spanning from 1970 to 2024. It consists of detailed observations that allow for tracking the complete life cycle of individual storms, capturing their paths and changes in intensity over time. Key information recorded for each storm includes its name, a unique identifier, its precise geographical coordinates, the ocean basin of its activity, and critical intensity metrics such as maximum sustained wind speed and minimum central atmospheric pressure.
+
+## Variable Descriptions
+
+| Variable    | Data Type | Description                                      |
+|-------------|-----------|--------------------------------------------------|
+| object_id   | int64     | Primary Key for each storm                       |
+| sid         | string    | Storm identifier                                 |
+| basin       | string    | Ocean basin where the storm occurred             |
+| sub_basin   | string    | Sub-basin within the ocean basin                 |
+| name        | string    | Name of the storm                                |
+| nature      | string    | Nature/type of the storm                         |
+| year        | int64     | Year of the observation (EST)                    |
+| month       | int64     | Month of the observation (EST)                   |
+| day         | int64     | Day of the observation   (EST)                   |
+| date        | string    | Date of the observation  (GMT/ZULU)              |
+| latitude    | float64   | Latitude of the storm's location                 |
+| longitude   | float64   | Longitude of the storm's location                |
+| usa_wind    | int64     | Maximum sustained wind speed (in whole knots)    |
+| usa_pres    | int64     | Minimum central atmospheric pressure (in mb)     |
+
+### Basin Codes
+
+| Code | Description         |
+|------|---------------------|
+| SI   | South Indian        |
+| SP   | South Pacific       |
+| WP   | Western Pacific     |
+| NI   | North Indian        |
+| NAB  | North Atlantic Basin|
+| EP   | Eastern Pacific     |
+| SA   | South Atlantic      |
+
+### Sub-Basin Codes
+
+| Code | Description        |
+|------|--------------------|
+| MM   | Malay Archipelago  |
+| WA   | Western Australia  |
+| EA   | Eastern Australia  |
+| BB   | Bay of Bengal      |
+| CS   | Caribbean Sea      |
+| GM   | Gulf of ~~America~~ Mexico |
+| NAB  | North Atlantic Basin|
+| AS   | Arabian Sea        |
+| CP   | Central Pacific    |
+
+### Nature Variable Codes
+
+| Code | Description          |
+|------|----------------------|
+| TS   | Tropical Storm       |
+| NR   | Not Rated            |
+| MX   | Maximum Intensity    |
+| ET   | Extratropical        |
+| DS   | Dissipating          |
+| SS   | Subtropical Storm    |
+
+## Research Questions
+
+**1) Question**
+
+**Hypotheses:** 
+
+* **$H_0$**: 
+* **$H_a$**: 
+
+**2) Question**
+
+**Hypotheses:**
+
+* **$H_0$**: 
+* **$H_a$**: 
+
+## Figures and Results
+
+* Appropriate figures illustrating your analysis and results
+
+```{python}
 ```
 
 
+## Machine Learning Model
+
+* At least one machine learning model predicting a variable of interest (this may be a simple
+multi-linear regression or something more complicated if you prefer) along with any
+validation tests or checks required for using that model
+
+```{python}
+```
+
+## Conclusions
+
+* Your conclusions, including supporting evidence and caveats if appropriate
